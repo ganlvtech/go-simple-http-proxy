@@ -24,7 +24,7 @@ go build -v -ldflags "-s -w" -o .
 chmod +x go-simple-udp-logger
 ```
 
-```bash
+```batch
 SET GOPROXY=https://mirrors.aliyun.com/goproxy/
 SET GO111MODULE=on
 SET GOOS=windows
