@@ -5,8 +5,6 @@ import (
 	"log"
 	"net/http"
 	"net/http/httputil"
-
-	"github.com/gin-gonic/gin"
 )
 
 var (
@@ -35,16 +33,11 @@ func init() {
 func main() {
 	flag.Parse()
 
-	r := gin.Default()
-	r.Any("/*action", func(ctx *gin.Context) {
-		simpleHostProxy.ServeHTTP(ctx.Writer, ctx.Request)
-	})
-
 	var err error
 	if enableHTTPS {
-		err = r.RunTLS(listenHost, certPath, keyPath)
+		err = http.ListenAndServeTLS(listenHost, certPath, keyPath, &simpleHostProxy)
 	} else {
-		err = r.Run(listenHost)
+		err = http.ListenAndServe(listenHost, &simpleHostProxy)
 	}
 
 	if err != nil {
